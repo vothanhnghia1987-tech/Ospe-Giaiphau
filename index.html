@@ -1,0 +1,620 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Thi Chạy Trạm OSPE Giải Phẫu</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f0f4f8;
+            color: #333;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            overscroll-behavior-y: none;
+        }
+        .header {
+            background-color: #0056b3;
+            color: white;
+            width: 100%;
+            text-align: center;
+            padding: 12px 0;
+            font-size: 22px;
+            font-weight: bold;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        .container {
+            width: 92%;
+            max-width: 800px;
+            background: white;
+            margin-top: 20px;
+            padding: 25px 15px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            text-align: center;
+            box-sizing: border-box;
+        }
+        .logo-uni {
+            width: 120px; 
+            height: auto;
+            margin-bottom: 15px;
+        }
+        
+        /* CSS cho trang giới thiệu */
+        .intro-text {
+            text-align: left;
+            font-size: 16px;
+            line-height: 1.6;
+            color: #444;
+            margin-bottom: 25px;
+            padding: 0 10px;
+        }
+        .intro-text p {
+            margin-bottom: 10px;
+        }
+        .intro-text a {
+            color: #0056b3;
+            text-decoration: none;
+        }
+        .intro-text a:hover {
+            text-decoration: underline;
+        }
+        .divider {
+            border: 0;
+            border-top: 1px dashed #ccc;
+            margin: 15px 0;
+        }
+
+        .module-btn {
+            background-color: #17a2b8;
+            color: white;
+            border: none;
+            padding: 14px 20px;
+            font-size: 17px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: 0.3s;
+            margin: 8px 0;
+            width: 100%; 
+            max-width: 320px;
+            display: inline-block;
+            box-sizing: border-box;
+        }
+        .module-btn:hover {
+            background-color: #138496;
+            transform: scale(1.03);
+        }
+        .btn-tong-hop {
+            background-color: #dc3545;
+        }
+        .btn-tong-hop:hover {
+            background-color: #c82333;
+        }
+        .timer {
+            font-size: 40px;
+            font-weight: bold;
+            color: #d9534f;
+            margin: 5px 0 10px 0;
+        }
+        .station-title {
+            font-size: 22px;
+            color: #0056b3;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        .module-title-display {
+            font-size: 14px;
+            color: #6c757d;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 5px;
+        }
+        
+        .image-section {
+            position: relative;
+            width: 100%;
+            border: 2px solid #ddd;
+            border-radius: 5px;
+            margin-bottom: 15px;
+            background-color: #fafafa;
+            overflow: hidden; 
+        }
+        .image-wrapper {
+            width: 100%;
+            height: 32vh; 
+            overflow: auto; 
+            -webkit-overflow-scrolling: touch; 
+            text-align: center; 
+        }
+        .image-wrapper img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain; 
+            display: block;
+            margin: 0 auto; 
+        }
+        .zoom-controls {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            z-index: 10;
+        }
+        .zoom-btn {
+            background-color: rgba(0, 86, 179, 0.85);
+            color: white;
+            border: none;
+            border-radius: 6px;
+            width: 36px;
+            height: 36px;
+            font-size: 24px;
+            line-height: 1;
+            cursor: pointer;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+            touch-action: manipulation; 
+        }
+        .zoom-btn:active {
+            background-color: #0056b3;
+            transform: scale(0.95);
+        }
+        
+        .question {
+            font-size: 18px;
+            margin-bottom: 15px;
+            font-weight: 500;
+            color: #000;
+        }
+        input[type="text"] {
+            width: 90%;
+            max-width: 400px;
+            padding: 12px;
+            font-size: 16px;
+            border: 2px solid #0056b3;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            text-align: center;
+            box-sizing: border-box;
+        }
+        .btn-action {
+            background-color: #28a745;
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            font-size: 16px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: 0.3s;
+            width: 90%;
+            max-width: 400px;
+            font-weight: bold;
+        }
+        .btn-action:hover {
+            background-color: #218838;
+        }
+        .hidden {
+            display: none !important;
+        }
+        .score-display {
+            font-size: 32px;
+            font-weight: bold;
+            color: #28a745;
+            margin: 20px 0;
+            padding: 15px;
+            background-color: #e9ecef;
+            border-radius: 8px;
+            border: 2px dashed #28a745;
+        }
+        .thank-you-message {
+            font-size: 16px;
+            color: #555;
+            margin-bottom: 20px;
+        }
+
+        @media (max-height: 600px) {
+            .image-wrapper { height: 25vh; }
+            .timer { font-size: 30px; }
+            .container { margin-top: 10px; padding: 15px 10px; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="header">HỆ THỐNG THI CHẠY TRẠM OSPE</div>
+
+    <!-- TRANG 1: MÀN HÌNH GIỚI THIỆU -->
+    <div id="intro-screen" class="container">
+        <img src="image_627249.jpg" alt="Logo Đại học Y Dược TPHCM" class="logo-uni">
+        <h2 style="color: #0056b3; margin-top: 0;">Giới thiệu</h2>
+        
+        <div class="intro-text">
+            <p>Chào các bạn,</p>
+            <p>Trang web này được thực hiện bởi <b>Trung tâm Giải Phẫu học - Phẫu thuật thực nghiệm, Trường Y, Đại học Y Dược TP. Hồ Chí Minh</b>. Chúng tôi giữ toàn bộ bản quyền nội dung của trang web này. Vui lòng không sao chép bất kỳ nội dung gì khi chưa được sự đồng ý từ Trung tâm.</p>
+            <p>Mọi thông tin xin liên hệ <b>TS. Võ Thành Nghĩa</b> (email: <a href="mailto:vtnghia@ump.edu.vn">vtnghia@ump.edu.vn</a>).</p>
+            
+            <hr class="divider">
+            
+            <p><b>Hướng dẫn:</b> Các bạn chọn vào mục cần học. Mỗi lần thao tác, các bạn sẽ làm <b>15 câu hỏi ngẫu nhiên</b> từ ngân hàng đề. Mỗi câu hỏi sẽ có thời gian là <b>30 giây</b>. Các bạn có thể phóng to hình để xem rõ chi tiết hơn nhé.</p>
+            <p style="text-align: center; font-weight: bold; color: #d9534f; font-size: 18px;">Chúc các bạn học tốt!</p>
+        </div>
+        
+        <button class="btn-action" onclick="goToSelection()">Tiếp tục</button>
+    </div>
+
+    <!-- TRANG 2: MÀN HÌNH CHỌN HỌC PHẦN (Đã được ẩn mặc định) -->
+    <div id="selection-screen" class="container hidden">
+        <h2>Chọn Nội Dung Thực Hành</h2>
+        <div id="module-buttons"></div>
+        <hr style="margin: 20px 0; border: 0; border-top: 1px solid #ddd;">
+        <button class="module-btn btn-tong-hop" onclick="startExam('tong-hop')">Thi Tổng Hợp (Ngẫu nhiên)</button>
+    </div>
+
+    <!-- TRANG 3: MÀN HÌNH THI -->
+    <div id="exam-screen" class="container hidden">
+        <div class="module-title-display" id="current-module-name">Phần thi: ...</div>
+        <div class="station-title" id="station-name">Trạm 1 / 15</div>
+        <div class="timer" id="time-left">30</div>
+        
+        <div class="image-section">
+            <div class="zoom-controls">
+                <button type="button" class="zoom-btn" onclick="zoomImage(0.5)">+</button>
+                <button type="button" class="zoom-btn" onclick="zoomImage(-0.5)">-</button>
+            </div>
+            <div class="image-wrapper" id="img-wrapper">
+                <img id="station-image" src="" alt="Hình ảnh giải phẫu">
+            </div>
+        </div>
+        
+        <div class="question" id="station-question">Chi tiết nơi mũi tên chỉ là gì?</div>
+        
+        <input type="text" id="student-answer" placeholder="Nhập câu trả lời..." onkeypress="handleEnter(event)" autocomplete="off" autocorrect="off" spellcheck="false">
+        <br>
+        <button class="btn-action" onclick="nextStation()">Nộp / Chuyển Trạm Sớm</button>
+    </div>
+
+    <!-- TRANG 4: MÀN HÌNH KẾT QUẢ -->
+    <div id="result-screen" class="container hidden">
+        <h2>Đã Hoàn Thành Bài Thi!</h2>
+        <p class="thank-you-message">Bạn đã hoàn tất tất cả các trạm của phần thi này.</p>
+        <div id="final-score" class="score-display">Đạt: 0 / 15 trạm</div>
+        <button class="btn-action" onclick="location.reload()">Quay Lại Trang Chủ</button>
+    </div>
+
+    <script>
+        const nganHangCauHoi = {
+            "chi-tren": {
+                tenHocPhan: "Giải Phẫu Chi Trên",
+                tram: [
+                    { dapAn: "Thần kinh giữa", dapAnChapNhan: ["TK giữa"], image: "ct1.jpg" },
+{ dapAn: "Động mạch quay", dapAnChapNhan: ["ĐM quay"], image: "ct2.jpg" },
+{ dapAn: "cung gan tay nông", dapAnChapNhan: ["cung gan tay nông"], image: "ct3.jpg" },
+{ dapAn: "Động mạch trụ", dapAnChapNhan: ["ĐM trụ"], image: "ct4.jpg" },
+{ dapAn: "gân cơ gấp cổ tay quay", dapAnChapNhan: ["cơ gấp cổ tay quay"], image: "ct5.jpg" },
+{ dapAn: "gân cơ gan tay dài", dapAnChapNhan: ["cơ gan tay"], image: "ct6.jpg" },
+{ dapAn: "cơ delta", dapAnChapNhan: ["cơ đen ta","cơ deltoid","cơ đen-ta"], image: "ct7.jpg" },
+{ dapAn: "cơ tam đầu cánh tay", dapAnChapNhan: ["cơ tam đầu"], image: "ct8.jpg" },
+{ dapAn: "xương đòn", dapAnChapNhan: ["X đòn"], image: "ct9.jpg" },
+{ dapAn: "động mạch cánh tay", dapAnChapNhan: ["ĐM cánh tay"], image: "ct10.jpg" },
+{ dapAn: "cơ nhị đầu cánh tay", dapAnChapNhan: ["cơ nhị đầu"], image: "ct11.jpg" },
+{ dapAn: "thần kinh giữa", dapAnChapNhan: ["TK giữa"], image: "ct12.jpg" },
+{ dapAn: "thần kinh trụ", dapAnChapNhan: ["TK trụ"], image: "ct13.jpg" },
+{ dapAn: "động mạch nách", dapAnChapNhan: ["ĐM nách"], image: "ct14.jpg" },
+{ dapAn: "Gân đầu dài cơ nhị đầu", dapAnChapNhan: ["Đầu dài gân cơ nhị đầu"], image: "ct15.jpg" },
+{ dapAn: "Gân đầu ngắn cơ nhị đầu", dapAnChapNhan: ["Đầu ngắn gân cơ nhị đầu"], image: "ct16.jpg" },
+{ dapAn: "Củ bé", dapAnChapNhan: ["Củ nhỏ"], image: "ct17.jpg" },
+{ dapAn: "Củ lớn", dapAnChapNhan: ["Củ to"], image: "ct18.jpg" },
+{ dapAn: "Mỏm quạ", dapAnChapNhan: ["Mỏm quạ"], image: "ct19.jpg" },
+{ dapAn: "Cơ sấp tròn", dapAnChapNhan: ["Cơ sấp tròn"], image: "ct20.jpg" },
+{ dapAn: "Cơ gấp cổ tay trụ", dapAnChapNhan: ["Cơ gấp cổ tay trụ"], image: "ct21.jpg" },
+                    { cauHoi: "Cơ nơi mũi tên chỉ do thần kinh nào chi phối vận động?", dapAn: "Thần kinh quay", dapAnChapNhan: ["TK quay"], image: "ct8.jpg" },
+{ cauHoi: "Cơ nơi mũi tên chỉ do thần kinh nào chi phối vận động?", dapAn: "Thần kinh cơ bì", dapAnChapNhan: ["TK cơ bì"], image: "ct11.jpg" },
+{ cauHoi: "Cơ nơi mũi tên chỉ do thần kinh nào chi phối vận động?", dapAn: "Thần kinh giữa", dapAnChapNhan: ["TK giữa"], image: "ct20.jpg" },
+{ cauHoi: "Cơ nơi mũi tên chỉ do thần kinh nào chi phối vận động?", dapAn: "Thần kinh trụ", dapAnChapNhan: ["TK trụ"], image: "ct21.jpg" },
+                ]
+            },
+            "chi-duoi": {
+                tenHocPhan: "Giải Phẫu Chi Dưới",
+                tram: [
+                    { cauHoi: "Chi tiết được đánh dấu bằng ngôi sao có chức năng chính là gì?", dapAn: "Chống trượt mâm chày ra trước", dapAnChapNhan: ["Giữ mâm chày"], image: "https://via.placeholder.com/600x400/eeeeee/333333?text=Day+Chang+Cheo" },
+                    { dapAn: "Thần kinh tọa", dapAnChapNhan: ["TK tọa", "Thần kinh ngồi"], image: "https://via.placeholder.com/600x400/eeeeee/333333?text=Day+Thang+Kinh+Toa" }
+                ]
+            },
+            "dau-mat-co": {
+                tenHocPhan: "Giải Phẫu Đầu Mặt Cổ",
+                tram: [
+                    { dapAn: "Thần kinh sinh ba", dapAnChapNhan: ["TK V","TK sinh ba"], image: "nao1.jpg" },
+{ dapAn: "giao thoa thị giác", dapAnChapNhan: ["giao thị"], image: "nao2.jpg" },
+{ dapAn: "thần kinh thị giác", dapAnChapNhan: ["TK II", "TK thị giác"], image: "nao3.jpg" },
+{ dapAn: "dải thị", dapAnChapNhan: ["dải thị giác"], image: "nao4.jpg" },
+{ dapAn: "cuống đại não", dapAnChapNhan: ["cuống đại não"], image: "nao5.jpg" },
+{ dapAn: "Tuyến nước bọt mang tai", dapAnChapNhan: ["tuyến NB mang tai"], image: "nao7.jpg" },
+{ dapAn: "Cơ cắn", dapAnChapNhan: ["Cơ cắn"], image: "nao8.jpg" },
+{ dapAn: "động mạch thái dương nông", dapAnChapNhan: ["ĐM thái dương nông"], image: "DMC1.jpg" },
+{ dapAn: "tĩnh mạch cảnh ngoài", dapAnChapNhan: ["TM cảnh ngoài"], image: "DMC2.jpg" },
+{ dapAn: "cơ ức đòn chũm", dapAnChapNhan: ["cơ ức đòn chũm"], image: "DMC3.jpg" },
+{ dapAn: "Động mạch mặt", dapAnChapNhan: ["ĐM mặt"], image: "DMC4.jpg" },
+{ dapAn: "Ống tuyến nước bọt mang tai", dapAnChapNhan: ["ống TNB mang tai"], image: "DMC5.jpg" },
+{ dapAn: "Tĩnh mạch cảnh trong", dapAnChapNhan: ["TM cảnh trong"], image: "DMC6.jpg" },
+{ dapAn: "Cơ vai móng", dapAnChapNhan: ["bụng dưới cơ vai móng"], image: "DMC7.jpg" },
+{ dapAn: "Cơ bán da cổ", dapAnChapNhan: ["cơ bám da cổ"], image: "DMC8.jpg" },
+{ dapAn: "Cơ thái dương", dapAnChapNhan: ["cơ thái dương"], image: "DMC9.jpg" },
+{ dapAn: "Thể chai", dapAnChapNhan: ["thể chai"], image: "nao9.jpg" },
+{ dapAn: "Thần kinh ròng rọc", dapAnChapNhan: ["TK IV", "Thần kinh sọ số IV", "TK sọ số IV"], image: "nao10.jpg" },
+{ dapAn: "Thần kinh vận nhãn", dapAnChapNhan: ["TK III", "Thần kinh sọ số III", "TK sọ số III"], image: "nao11.jpg" },
+{ dapAn: "Bắt chéo tháp", dapAnChapNhan: ["Bắt chéo tháp"], image: "nao12.jpg" },
+{ dapAn: "Thể vú", dapAnChapNhan: ["Thể vú"], image: "nao13.jpg" },
+{ dapAn: "Đầu nhân đuôi", dapAnChapNhan: ["Nhân đuôi"], image: "nao14.jpg" },
+{ dapAn: "Vách trong suốt", dapAnChapNhan: ["Vách trong suốt"], image: "nao15.jpg" },
+{ dapAn: "Mép dính gian đồi thị", dapAnChapNhan: ["Mép dính gian đồi thị"], image: "nao16.jpg" },
+{ dapAn: "Thể chai", dapAnChapNhan: ["Gối thể chai"], image: "nao17.jpg" },
+{ dapAn: "Động mạch não trước", dapAnChapNhan: ["ĐM não trước"], image: "nao18.jpg" },
+{ dapAn: "Tuyến yên", dapAnChapNhan: ["Tuyến yên"], image: "nao19.jpg" },
+{ dapAn: "Mép trước", dapAnChapNhan: ["Mép trước"], image: "nao20.jpg" },
+{ dapAn: "Xoang trán", dapAnChapNhan: ["Xoang trán"], image: "XS1.jpg" },
+{ dapAn: "Xoang bướm", dapAnChapNhan: ["Xoang bướm"], image: "XS2.jpg" },
+{ dapAn: "Cống não", dapAnChapNhan: ["Cống não"], image: "nao21.jpg" },
+{ dapAn: "Não thất tư", dapAnChapNhan: ["Não thất IV"], image: "nao22.jpg" },
+{ dapAn: "Cầu não", dapAnChapNhan: ["Cầu não"], image: "nao23.jpg" },
+{ dapAn: "Xoang tĩnh mạch dọc trên", dapAnChapNhan: ["Xoang TM dọc trên"], image: "nao24.jpg" },
+{ dapAn: "Vòm não", dapAnChapNhan: ["Vòm não"], image: "nao25.jpg" },
+{ dapAn: "Hội lưu xoang", dapAnChapNhan: ["Hội lưu xoang TM", "Hội lưu xoang tĩnh mạch"], image: "nao26.jpg" },
+{ dapAn: "Mép sau", dapAnChapNhan: ["mép sau"], image: "nao27.jpg" },
+{ dapAn: "Xoăn mũi dưới", dapAnChapNhan: ["Cuống mũi dưới"], image: "Mui1.jpg" },
+{ dapAn: "Lỗ hầu vòi tai", dapAnChapNhan: ["Lỗ hầu vòi tai"], image: "Mui2.jpg" },
+{ dapAn: "Xương hàm dưới", dapAnChapNhan: ["Thân xương hàm dưới"], image: "DMC10.jpg" },
+{ dapAn: "Hạnh nhân lưỡi", dapAnChapNhan: ["Hạnh nhân lưỡi"], image: "DMC11.jpg" },
+                    { cauHoi: "Cơ nơi mũi tên chỉ do thần kinh nào chi phối?", dapAn: "TK VII", dapAnChapNhan: ["TK sọ số VII", "Thần kinh mặt", "TK mặt"], image: "nao6.jpg" },
+{ cauHoi: "Cơ nơi mũi tên chỉ do thần kinh nào chi phối?", dapAn: "TK V", dapAnChapNhan: ["TK sọ số V", "Thần kinh sinh ba"], image: "nao8.jpg" },
+{ cauHoi: "Cơ nơi mũi tên chỉ do thần kinh nào chi phối?", dapAn: "Thần kinh phụ", dapAnChapNhan: ["TK sọ số XI", "TK phụ"], image: "DMC3.jpg" },
+{ cauHoi: "Động mạch nơi mũi tên chỉ xuất phát từ động mạch nào?", dapAn: "Động mạch cảnh ngoài", dapAnChapNhan: ["ĐM cảnh ngoài"], image: "DMC4.jpg" },
+{ cauHoi: "Cơ nơi mũi tên chỉ do thần kinh nào chi phối?", dapAn: "TK V", dapAnChapNhan: ["TK sọ số V", "Thần kinh sinh ba"], image: "DMC9.jpg" },
+                ]
+            },
+            "nguc-bung": {
+                tenHocPhan: "Giải Phẫu Ngực Bụng",
+                tram: [
+                    { dapAn: "Tĩnh mạch mạc treo tràng trên", dapAnChapNhan: ["TM mạc treo tràng trên"], image: "bung1.jpg" },
+                    { dapAn: "Động mạch mạc treo tràng trên", dapAnChapNhan: ["ĐM mạc treo tràng trên"], image: "bung2.jpg" },
+{ dapAn: "Ống mật chủ", dapAnChapNhan: ["OMC"], image: "bung3.jpg" },
+{ dapAn: "Tuyến thượng thận", dapAnChapNhan: ["T. thượng thận"], image: "bung4.jpg" },
+{ dapAn: "Ống tụy chính", dapAnChapNhan: ["Ố tụy chính"], image: "bung5.jpg" },
+{ dapAn: "Động mạch mạc gan chung", dapAnChapNhan: ["ĐM gan chung"], image: "bung6.jpg" },
+{ dapAn: "Động mạch lách", dapAnChapNhan: ["ĐM lách"], image: "bung7.jpg" },
+{ dapAn: "Niệu quản", dapAnChapNhan: ["Niệu quản (T)"], image: "bung8.jpg" },
+{ dapAn: "Động mạch tá tụy dưới trước", dapAnChapNhan: ["ĐM tá tụy dưới trước"], image: "bung9.jpg" },
+{ dapAn: "Động mạch chậu chung", dapAnChapNhan: ["ĐM chậu chung"], image: "chau1.jpg" },
+{ dapAn: "Niệu quản", dapAnChapNhan: ["NQ"], image: "chau2.jpg" },
+{ dapAn: "Tuyến tiền liệt", dapAnChapNhan: ["tiền liệt tuyến"], image: "chau3.jpg" },
+{ dapAn: "Động mạch chậu ngoài", dapAnChapNhan: ["ĐM chậu ngoài"], image: "chau4.jpg" },
+{ dapAn: "Trực tràng", dapAnChapNhan: ["Trực tràng"], image: "chau5.jpg" },
+{ dapAn: "Vật hang", dapAnChapNhan: ["Vật hang"], image: "chau6.jpg" },
+{ dapAn: "Vật xốp", dapAnChapNhan: ["Vật xốp"], image: "chau7.jpg" },
+{ dapAn: "Mào tinh", dapAnChapNhan: ["Mào tinh"], image: "chau8.jpg" },
+{ dapAn: "Cơ thẳng bụng", dapAnChapNhan: ["Cơ thẳng bụng"], image: "chau9.jpg" },
+{ dapAn: "Cơ ngang bụng", dapAnChapNhan: ["Cơ ngang bụng"], image: "chau10.jpg" },
+{ dapAn: "Cơ chéo bụng trong", dapAnChapNhan: ["Cơ chéo bụng trong"], image: "chau11.jpg" },
+{ dapAn: "Động mạch cảnh chung trái", dapAnChapNhan: ["ĐM cảnh chung trái"], image: "tim1.jpg" },
+{ dapAn: "Động mạch dưới đòn trái", dapAnChapNhan: ["ĐM dưới đòn trái"], image: "tim2.jpg" },
+{ dapAn: "Thân cánh tay đầu", dapAnChapNhan: ["ĐM thân cánh tay đầu"], image: "tim3.jpg" },
+{ dapAn: "Cung động mạch chủ", dapAnChapNhan: ["Quai động mạch chủ"], image: "tim4.jpg" },
+{ dapAn: "Dây chằng động mạch", dapAnChapNhan: ["Dc động mạch"], image: "tim5.jpg" },
+{ dapAn: "Động mạch phổi", dapAnChapNhan: ["ĐM phổi"], image: "tim6.jpg" },
+{ dapAn: "Van 2 lá", dapAnChapNhan: ["van hai lá"], image: "tim7.jpg" },
+{ dapAn: "Van 3 lá", dapAnChapNhan: ["van ba lá"], image: "tim8.jpg" },
+{ dapAn: "Van động mạch phổi", dapAnChapNhan: ["van ĐM phổi"], image: "tim9.jpg" },
+{ dapAn: "Túi mật", dapAnChapNhan: ["túi mật"], image: "B1.jpg" },
+{ dapAn: "Ống túi mật", dapAnChapNhan: ["ống túi mật"], image: "B2.jpg" },
+{ dapAn: "Tĩnh mạch cửa", dapAnChapNhan: ["TM cửa"], image: "B3.jpg" },
+{ dapAn: "Cơ ngực bé", dapAnChapNhan: ["cơ ngực nhỏ"], image: "N1.jpg" },
+{ dapAn: "Cơ ngực lớn", dapAnChapNhan: ["cơ ngực to"], image: "N2.jpg" },
+                ]
+            },
+            "tiet-nieu": {
+                tenHocPhan: "Hệ Tiết Niệu",
+                tram: [
+                    { dapAn: "Thận phải", dapAnChapNhan: ["Thận P"], image: "https://via.placeholder.com/600x400/eeeeee/333333?text=Than+Phai" },
+                    { dapAn: "Niệu quản", dapAnChapNhan: ["Nieu quan"], image: "https://via.placeholder.com/600x400/eeeeee/333333?text=Nieu+Quan" },
+                    { dapAn: "Bàng quang", dapAnChapNhan: ["Bọng đái"], image: "https://via.placeholder.com/600x400/eeeeee/333333?text=Bang+Quang" }
+                ]
+            },
+            "sinh-duc": {
+                tenHocPhan: "Hệ Sinh Dục",
+                tram: [
+                    { dapAn: "Tử cung", dapAnChapNhan: ["Dạ con"], image: "https://via.placeholder.com/600x400/eeeeee/333333?text=Tu+Cung" },
+                    { dapAn: "Ống dẫn tinh", dapAnChapNhan: ["Ong dan tinh"], image: "https://via.placeholder.com/600x400/eeeeee/333333?text=Ong+Dan+Tinh" },
+                    { dapAn: "Buồng trứng", dapAnChapNhan: ["Buong trung"], image: "https://via.placeholder.com/600x400/eeeeee/333333?text=Buong+Trung" }
+                ]
+            }
+        };
+
+        const THOI_GIAN_MOI_TRAM = 30; 
+        const SO_CAU_TOI_DA = 15; 
+        
+        let danhSachTramHienTai = [];
+        let tenHocPhanHienTai = "";
+        let currentStationIndex = 0;
+        let timeLeft = THOI_GIAN_MOI_TRAM;
+        let timerInterval;
+        let totalCorrect = 0;
+        let currentImageZoom = 1; 
+
+        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+
+        function playTingSound() {
+            if (audioCtx.state === 'suspended') {
+                audioCtx.resume();
+            }
+            const oscillator = audioCtx.createOscillator();
+            const gainNode = audioCtx.createGain();
+            
+            oscillator.type = 'sine'; 
+            oscillator.frequency.setValueAtTime(1046.50, audioCtx.currentTime); 
+            
+            gainNode.gain.setValueAtTime(1, audioCtx.currentTime);
+            gainNode.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.5);
+            
+            oscillator.connect(gainNode);
+            gainNode.connect(audioCtx.destination);
+            
+            oscillator.start();
+            oscillator.stop(audioCtx.currentTime + 0.5); 
+        }
+
+        window.onload = function() {
+            const buttonContainer = document.getElementById('module-buttons');
+            for (const key in nganHangCauHoi) {
+                const hocPhan = nganHangCauHoi[key];
+                const btn = document.createElement('button');
+                btn.className = 'module-btn';
+                btn.innerText = hocPhan.tenHocPhan;
+                btn.onclick = () => startExam(key);
+                buttonContainer.appendChild(btn);
+            }
+        };
+
+        // Hàm chuyển từ Trang Giới Thiệu sang Trang Chọn Đề
+        function goToSelection() {
+            // Mở khóa âm thanh trước (do trình duyệt yêu cầu người dùng tương tác trước khi phát tiếng)
+            if (audioCtx.state === 'suspended') {
+                audioCtx.resume();
+            }
+            document.getElementById('intro-screen').classList.add('hidden');
+            document.getElementById('selection-screen').classList.remove('hidden');
+        }
+
+        function shuffleArray(array) {
+            let shuffled = [...array];
+            for (let i = shuffled.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+            }
+            return shuffled;
+        }
+
+        function startExam(moduleKey) {
+            let tatCaCauHoi = [];
+
+            if (moduleKey === 'tong-hop') {
+                tenHocPhanHienTai = "Thi Tổng Hợp Toàn Diện";
+                for (const key in nganHangCauHoi) {
+                    tatCaCauHoi = tatCaCauHoi.concat(nganHangCauHoi[key].tram);
+                }
+            } else {
+                tenHocPhanHienTai = nganHangCauHoi[moduleKey].tenHocPhan;
+                tatCaCauHoi = [...nganHangCauHoi[moduleKey].tram];
+            }
+            
+            tatCaCauHoi = shuffleArray(tatCaCauHoi);
+            danhSachTramHienTai = tatCaCauHoi.slice(0, SO_CAU_TOI_DA);
+            
+            document.getElementById('selection-screen').classList.add('hidden');
+            document.getElementById('exam-screen').classList.remove('hidden');
+            document.getElementById('current-module-name').innerText = "Phần thi: " + tenHocPhanHienTai;
+            
+            currentStationIndex = 0;
+            totalCorrect = 0;
+            loadStation();
+        }
+
+        function zoomImage(step) {
+            const wrapper = document.getElementById('img-wrapper');
+            const img = document.getElementById('station-image');
+            
+            currentImageZoom += step;
+            if (currentImageZoom < 1) currentImageZoom = 1;
+            if (currentImageZoom > 4) currentImageZoom = 4;
+            
+            img.style.width = (currentImageZoom * 100) + '%';
+            img.style.height = (currentImageZoom * 100) + '%';
+            
+            setTimeout(() => {
+                const maxScrollX = wrapper.scrollWidth - wrapper.clientWidth;
+                const maxScrollY = wrapper.scrollHeight - wrapper.clientHeight;
+                
+                wrapper.scrollLeft = maxScrollX / 2;
+                wrapper.scrollTop = maxScrollY / 2;
+            }, 10);
+        }
+
+        function loadStation() {
+            if (currentStationIndex >= danhSachTramHienTai.length) {
+                showResults();
+                return;
+            }
+
+            const station = danhSachTramHienTai[currentStationIndex];
+            document.getElementById('station-name').innerText = `Trạm ${currentStationIndex + 1} / ${danhSachTramHienTai.length}`;
+            
+            currentImageZoom = 1;
+            const imgEl = document.getElementById('station-image');
+            imgEl.src = station.image;
+            imgEl.style.width = '100%'; 
+            imgEl.style.height = '100%'; 
+            document.getElementById('img-wrapper').scrollTop = 0; 
+            document.getElementById('img-wrapper').scrollLeft = 0;
+
+            const questionElement = document.getElementById('station-question');
+            if (station.cauHoi) {
+                questionElement.innerText = station.cauHoi;
+            } else {
+                questionElement.innerText = "Chi tiết nơi mũi tên chỉ là gì?";
+            }
+
+            const inputField = document.getElementById('student-answer');
+            inputField.value = '';
+            
+            setTimeout(() => inputField.focus(), 100);
+            
+            timeLeft = THOI_GIAN_MOI_TRAM;
+            document.getElementById('time-left').innerText = timeLeft;
+
+            clearInterval(timerInterval);
+            timerInterval = setInterval(updateTimer, 1000);
+        }
+
+        function updateTimer() {
+            timeLeft--;
+            document.getElementById('time-left').innerText = timeLeft;
+            if (timeLeft <= 0) {
+                nextStation();
+            }
+        }
+
+        function nextStation() {
+            const studentText = document.getElementById('student-answer').value.trim();
+            const currentStation = danhSachTramHienTai[currentStationIndex];
+            
+            const correctAns = currentStation.dapAn;
+            const acceptedAns = currentStation.dapAnChapNhan || []; 
+            
+            let studentLower = studentText.toLowerCase();
+            let allValidAnswers = [correctAns, ...acceptedAns].map(a => a.toLowerCase());
+            
+            if (studentText !== "" && allValidAnswers.includes(studentLower)) {
+                totalCorrect++;
+            }
+
+            playTingSound();
+            currentStationIndex++;
+            loadStation();
+        }
+
+        function handleEnter(event) {
+            if (event.key === "Enter") {
+                nextStation();
+            }
+        }
+
+        function showResults() {
+            clearInterval(timerInterval);
+            document.getElementById('exam-screen').classList.add('hidden');
+            document.getElementById('result-screen').classList.remove('hidden');
+            document.getElementById('final-score').innerText = `Kết quả: ${totalCorrect} / ${danhSachTramHienTai.length} Trạm`;
+        }
+    </script>
+</body>
+</html>
