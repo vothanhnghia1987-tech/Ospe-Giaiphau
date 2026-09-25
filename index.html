@@ -5,37 +5,83 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Thi Chạy Trạm OSPE Giải Phẫu</title>
     <style>
-        body { font-family: 'Segoe UI', sans-serif; background-color: #f0f4f8; color: #333; margin: 0; display: flex; flex-direction: column; align-items: center; overscroll-behavior-y: none; }
-        .header { background-color: #0056b3; color: white; width: 100%; text-align: center; padding: 12px 0; font-size: 22px; font-weight: bold; }
-        .container { width: 92%; max-width: 800px; background: white; margin-top: 20px; padding: 25px 15px; border-radius: 10px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); text-align: center; box-sizing: border-box; margin-bottom: 30px;}
+        body { 
+            font-family: 'Segoe UI', sans-serif; 
+            color: #333; 
+            margin: 0; 
+            display: flex; 
+            flex-direction: column; 
+            align-items: center; 
+            overscroll-behavior-y: none;
+            position: relative;
+            min-height: 100vh;
+        }
+
+        /* LỚP PHỦ HÌNH NỀN MỜ (LIQUID EFFECT) */
+        body::before {
+            content: "";
+            position: fixed;
+            top: -20px; left: -20px; right: -20px; bottom: -20px; /* Tràn viền để giấu viền mờ */
+            background-image: url('IMG_0973.jpg');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            opacity: 0.7; /* Độ trong suốt của hình nền */
+            filter: blur(12px); /* Độ mờ liquid */
+            z-index: -1; 
+        }
+
+        .header { background-color: rgba(0, 86, 179, 0.95); color: white; width: 100%; text-align: center; padding: 12px 0; font-size: 22px; font-weight: bold; backdrop-filter: blur(5px); }
+        
+        /* KHUNG NỘI DUNG TRONG SUỐT NHẸ */
+        .container { 
+            width: 92%; max-width: 800px; 
+            background: rgba(255, 255, 255, 0.88); /* Nền trắng hơi trong suốt */
+            backdrop-filter: blur(8px); /* Hiệu ứng kính mờ (glassmorphism) */
+            margin-top: 20px; padding: 25px 15px; border-radius: 12px; 
+            box-shadow: 0 8px 32px rgba(0,0,0,0.15); 
+            text-align: center; box-sizing: border-box; margin-bottom: 30px;
+            border: 1px solid rgba(255, 255, 255, 0.4);
+        }
+
         .logo-uni { width: 120px; height: auto; margin-bottom: 15px; }
-        .intro-text { text-align: left; font-size: 16px; line-height: 1.6; color: #444; margin-bottom: 25px; padding: 0 10px; }
+        
+        .intro-text { text-align: left; font-size: 16px; line-height: 1.6; color: #333; margin-bottom: 25px; padding: 0 10px; }
         .intro-text p { margin-bottom: 10px; }
         .intro-text a { color: #0056b3; text-decoration: none; }
-        .divider { border: 0; border-top: 1px dashed #ccc; margin: 15px 0; }
-        .module-btn { background-color: #17a2b8; color: white; border: none; padding: 14px 20px; font-size: 17px; border-radius: 8px; cursor: pointer; margin: 8px 0; width: 100%; max-width: 320px; box-sizing: border-box; }
-        .btn-tong-hop { background-color: #dc3545; }
-        .timer { font-size: 40px; font-weight: bold; color: #d9534f; margin: 5px 0 10px 0; }
+        .divider { border: 0; border-top: 1px dashed rgba(0,0,0,0.2); margin: 15px 0; }
+        
+        .category-title { text-align: left; color: #0056b3; border-bottom: 2px solid rgba(0,0,0,0.1); padding-bottom: 8px; margin-top: 25px; margin-bottom: 15px; font-size: 18px; text-transform: uppercase; font-weight: bold; }
+        .button-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 15px; }
+        @media (min-width: 600px) { .button-grid { grid-template-columns: 1fr 1fr 1fr; } }
+        
+        .module-btn { background-color: rgba(23, 162, 184, 0.9); color: white; border: none; padding: 12px 10px; font-size: 15px; border-radius: 8px; cursor: pointer; display: flex; align-items: center; justify-content: center; text-align: center; height: 100%; min-height: 55px; width: 100%; box-sizing: border-box; font-weight: 500; transition: 0.2s; box-shadow: 0 4px 6px rgba(0,0,0,0.1);}
+        .module-btn:hover { background-color: #138496; transform: scale(1.02); }
+        .btn-tong-hop { background-color: rgba(220, 53, 69, 0.9); grid-column: 1 / -1; min-height: 50px; font-size: 16px; margin-top: 10px;}
+        .btn-tong-hop:hover { background-color: #c82333; }
+        
+        .timer { font-size: 40px; font-weight: bold; color: #d9534f; margin: 5px 0 10px 0; text-shadow: 1px 1px 2px rgba(255,255,255,0.8); }
         .station-title { font-size: 22px; color: #0056b3; margin-bottom: 5px; font-weight: bold; }
-        .module-title-display { font-size: 14px; color: #6c757d; text-transform: uppercase; margin-bottom: 5px; }
-        .image-section { position: relative; width: 100%; border: 2px solid #ddd; border-radius: 5px; margin-bottom: 15px; background-color: #fafafa; overflow: hidden; }
+        .module-title-display { font-size: 14px; color: #555; text-transform: uppercase; margin-bottom: 5px; font-weight: 600;}
+        
+        .image-section { position: relative; width: 100%; border: 2px solid #ccc; border-radius: 5px; margin-bottom: 15px; background-color: #fff; overflow: hidden; box-shadow: inset 0 0 10px rgba(0,0,0,0.05);}
         .image-wrapper { width: 100%; height: 32vh; overflow: auto; -webkit-overflow-scrolling: touch; text-align: center; }
         .image-wrapper img { width: 100%; height: 100%; object-fit: contain; display: block; margin: 0 auto; }
         .zoom-controls { position: absolute; top: 10px; right: 10px; display: flex; flex-direction: column; gap: 8px; z-index: 10; }
-        .zoom-btn { background-color: rgba(0, 86, 179, 0.85); color: white; border: none; border-radius: 6px; width: 36px; height: 36px; font-size: 24px; }
-        .question { font-size: 18px; margin-bottom: 15px; font-weight: 500; color: #000; }
-        input[type="text"] { width: 90%; max-width: 400px; padding: 12px; font-size: 16px; border: 2px solid #0056b3; border-radius: 8px; margin-bottom: 15px; text-align: center; box-sizing: border-box; }
-        .btn-action { background-color: #28a745; color: white; border: none; padding: 12px 20px; font-size: 16px; border-radius: 5px; cursor: pointer; width: 90%; max-width: 400px; font-weight: bold; margin-bottom: 15px;}
-        .hidden { display: none !important; }
-        .score-display { font-size: 28px; font-weight: bold; color: #28a745; margin: 15px 0; padding: 15px; background-color: #e9ecef; border-radius: 8px; border: 2px dashed #28a745; }
-        #loading-screen { padding: 40px; font-size: 20px; font-weight: bold; color: #0056b3; }
-        .spinner { border: 4px solid #f3f3f3; border-top: 4px solid #0056b3; border-radius: 50%; width: 40px; height: 40px; animation: spin 1s linear infinite; margin: 20px auto; }
+        .zoom-btn { background-color: rgba(0, 86, 179, 0.85); color: white; border: none; border-radius: 6px; width: 36px; height: 36px; font-size: 24px; cursor: pointer; box-shadow: 0 2px 4px rgba(0,0,0,0.2);}
         
-        /* CSS cho bảng kết quả chi tiết */
+        .question { font-size: 18px; margin-bottom: 15px; font-weight: 600; color: #111; }
+        input[type="text"] { width: 90%; max-width: 400px; padding: 12px; font-size: 16px; border: 2px solid #0056b3; border-radius: 8px; margin-bottom: 15px; text-align: center; box-sizing: border-box; background: rgba(255,255,255,0.9); }
+        .btn-action { background-color: rgba(40, 167, 69, 0.95); color: white; border: none; padding: 12px 20px; font-size: 16px; border-radius: 5px; cursor: pointer; width: 90%; max-width: 400px; font-weight: bold; margin-bottom: 15px; box-shadow: 0 4px 6px rgba(0,0,0,0.1);}
+        .hidden { display: none !important; }
+        .score-display { font-size: 28px; font-weight: bold; color: #28a745; margin: 15px 0; padding: 15px; background-color: rgba(233, 236, 239, 0.7); border-radius: 8px; border: 2px dashed #28a745; }
+        #loading-screen { padding: 40px; font-size: 20px; font-weight: bold; color: #0056b3; }
+        .spinner { border: 4px solid rgba(255,255,255,0.5); border-top: 4px solid #0056b3; border-radius: 50%; width: 40px; height: 40px; animation: spin 1s linear infinite; margin: 20px auto; }
+        
         .table-responsive { width: 100%; overflow-x: auto; margin-bottom: 20px; border-radius: 5px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
-        .result-table { width: 100%; border-collapse: collapse; font-size: 15px; min-width: 500px; }
-        .result-table th, .result-table td { border: 1px solid #ddd; padding: 10px; text-align: left; vertical-align: middle; }
-        .result-table th { background-color: #0056b3; color: white; text-align: center; position: sticky; top: 0;}
+        .result-table { width: 100%; border-collapse: collapse; font-size: 15px; min-width: 500px; background: rgba(255,255,255,0.7);}
+        .result-table th, .result-table td { border: 1px solid rgba(0,0,0,0.1); padding: 10px; text-align: left; vertical-align: middle; }
+        .result-table th { background-color: rgba(0, 86, 179, 0.95); color: white; text-align: center; position: sticky; top: 0;}
         .result-table td:nth-child(1), .result-table td:nth-child(4) { text-align: center; }
         .result-table td:nth-child(4) { font-weight: bold; font-size: 16px;}
         
@@ -47,6 +93,7 @@
 
     <div class="header">HỆ THỐNG THI CHẠY TRẠM OSPE</div>
 
+    <!-- TRANG 1: MÀN HÌNH GIỚI THIỆU -->
     <div id="intro-screen" class="container">
         <img src="image_627249.jpg" alt="Logo Đại học Y Dược TPHCM" class="logo-uni">
         <h2 style="color: #0056b3; margin-top: 0;">Giới thiệu</h2>
@@ -55,31 +102,47 @@
             <p>Trang web này được thực hiện bởi <b>Trung tâm Giải Phẫu học, Trường Y, Đại học Y Dược TP. Hồ Chí Minh</b>. Chúng tôi giữ toàn bộ bản quyền nội dung của trang web này. Vui lòng không sao chép bất kỳ nội dung gì khi chưa được sự đồng ý từ Trung tâm.</p>
             <p>Mọi thông tin xin liên hệ <b>TS. Võ Thành Nghĩa</b> (email: <a href="mailto:vtnghia@ump.edu.vn">vtnghia@ump.edu.vn</a>).</p>
             <hr class="divider">
-            <p><b>Hướng dẫn:</b> Các bạn chọn vào mục cần học. Mỗi lần thao tác, các bạn sẽ làm <b>15 câu hỏi ngẫu nhiên</b> từ ngân hàng đề. Mỗi câu hỏi sẽ có thời gian là <b>30 giây</b>. Các bạn có thể phóng to hình để xem rõ chi tiết hơn nhé.</p>
+            <p>Các bạn chọn vào mục cần học. Mỗi lần thao tác, các bạn sẽ làm <b>15 câu hỏi ngẫu nhiên</b> từ ngân hàng đề. Mỗi câu hỏi sẽ có thời gian là <b>30 giây</b>. Các bạn có thể phóng to hình để xem rõ chi tiết hơn nhé.</p>
             <p style="text-align: center; font-weight: bold; color: #d9534f; font-size: 18px;">Chúc các bạn học tốt!</p>
         </div>
         <button class="btn-action" onclick="goToSelection()">Tiếp tục</button>
     </div>
 
+    <!-- TRANG 2: MÀN HÌNH CHỌN BÀI THI -->
     <div id="selection-screen" class="container hidden">
         <h2>Chọn Nội Dung Thực Hành</h2>
-        <div id="module-buttons">
+        
+        <h3 class="category-title">I. Giải Phẫu Vùng</h3>
+        <div class="button-grid">
             <button class="module-btn" onclick="startExam('chi-tren')">Giải Phẫu Chi Trên</button>
             <button class="module-btn" onclick="startExam('chi-duoi')">Giải Phẫu Chi Dưới</button>
             <button class="module-btn" onclick="startExam('dau-mat-co')">Giải Phẫu Đầu Mặt Cổ</button>
             <button class="module-btn" onclick="startExam('nguc-bung')">Giải Phẫu Ngực Bụng</button>
+        </div>
+
+        <h3 class="category-title">II. Giải Phẫu Hệ Cơ Quan</h3>
+        <div class="button-grid">
+            <button class="module-btn" onclick="startExam('he-xuong')">Hệ Xương</button>
+            <button class="module-btn" onclick="startExam('he-co')">Hệ Cơ</button>
+            <button class="module-btn" onclick="startExam('he-tim-mach')">Hệ Tim Mạch</button>
+            <button class="module-btn" onclick="startExam('he-than-kinh')">Hệ Thần Kinh</button>
             <button class="module-btn" onclick="startExam('tiet-nieu')">Hệ Tiết Niệu</button>
             <button class="module-btn" onclick="startExam('sinh-duc')">Hệ Sinh Dục</button>
         </div>
-        <hr style="margin: 20px 0; border: 0; border-top: 1px solid #ddd;">
-        <button class="module-btn btn-tong-hop" onclick="startExam('tong-hop')">Thi Tổng Hợp (Ngẫu nhiên)</button>
+
+        <hr style="margin: 25px 0; border: 0; border-top: 1px dashed rgba(0,0,0,0.2);">
+        <div class="button-grid" style="display: flex;">
+            <button class="module-btn btn-tong-hop" onclick="startExam('tong-hop')">Thi Tổng Hợp Toàn Diện</button>
+        </div>
     </div>
 
+    <!-- TRANG 3: MÀN HÌNH CHỜ DỮ LIỆU -->
     <div id="loading-screen" class="container hidden">
         <p id="loading-text">Hệ thống đang kết nối dữ liệu bảo mật...</p>
         <div class="spinner"></div>
     </div>
 
+    <!-- TRANG 4: MÀN HÌNH LÀM BÀI -->
     <div id="exam-screen" class="container hidden">
         <div class="module-title-display" id="current-module-name">Phần thi: ...</div>
         <div class="station-title" id="station-name">Trạm 1 / 15</div>
@@ -101,13 +164,11 @@
         <button class="btn-action" onclick="nextStation()">Nộp / Chuyển Trạm Sớm</button>
     </div>
 
-    <!-- MÀN HÌNH KẾT QUẢ ĐÃ ĐƯỢC CẬP NHẬT -->
+    <!-- TRANG 5: MÀN HÌNH KẾT QUẢ -->
     <div id="result-screen" class="container hidden" style="max-width: 900px;">
         <h2 style="color: #0056b3; margin-bottom: 5px;">Đã Hoàn Thành Bài Thi!</h2>
         <div id="final-score" class="score-display">Đạt: ... / ... trạm</div>
-        
-        <h3 style="text-align: left; font-size: 18px; color: #444; border-bottom: 2px solid #ddd; padding-bottom: 5px;">Chi Tiết Bài Làm Của Bạn:</h3>
-        
+        <h3 style="text-align: left; font-size: 18px; color: #444; border-bottom: 2px solid rgba(0,0,0,0.1); padding-bottom: 5px;">Chi Tiết Bài Làm Của Bạn:</h3>
         <div class="table-responsive">
             <table class="result-table">
                 <thead>
@@ -118,17 +179,14 @@
                         <th width="20%">Kết Quả</th>
                     </tr>
                 </thead>
-                <tbody id="result-body">
-                    <!-- Kết quả chi tiết sinh ra từ JS -->
-                </tbody>
+                <tbody id="result-body"></tbody>
             </table>
         </div>
-        
         <button class="btn-action" onclick="location.reload()" style="margin-top: 10px;">Quay Lại Trang Chủ</button>
     </div>
 
     <script>
-        // BẠN HÃY DÁN ĐƯỜNG LINK GOOGLE SCRIPT VÀO ĐÂY:
+        // DÁN ĐƯỜNG LINK GOOGLE SCRIPT VÀO DÒNG DƯỚI ĐÂY:
         const API_URL = "https://script.google.com/macros/s/AKfycby-f7M5MYC3vasMB_ob7jzhN-znLGFL_oHw7egTJA411fhhaSeHpLpKqXiS6GVM6FtW/exec";
 
         const THOI_GIAN_MOI_TRAM = 30; 
@@ -156,6 +214,7 @@
             oscillator.stop(audioCtx.currentTime + 0.5); 
         }
 
+        // Kích hoạt khi bấm nút "Tiếp tục" ở trang giới thiệu
         function goToSelection() {
             if (audioCtx.state === 'suspended') audioCtx.resume();
             document.getElementById('intro-screen').classList.add('hidden');
@@ -168,9 +227,17 @@
             document.getElementById('loading-text').innerText = "Đang tải đề thi từ máy chủ...";
 
             let moduleNames = {
-                "chi-tren": "Giải Phẫu Chi Trên", "chi-duoi": "Giải Phẫu Chi Dưới",
-                "dau-mat-co": "Giải Phẫu Đầu Mặt Cổ", "nguc-bung": "Giải Phẫu Ngực Bụng",
-                "tiet-nieu": "Hệ Tiết Niệu", "sinh-duc": "Hệ Sinh Dục", "tong-hop": "Thi Tổng Hợp"
+                "chi-tren": "Giải Phẫu Chi Trên", 
+                "chi-duoi": "Giải Phẫu Chi Dưới",
+                "dau-mat-co": "Giải Phẫu Đầu Mặt Cổ", 
+                "nguc-bung": "Giải Phẫu Ngực Bụng",
+                "he-xuong": "Hệ Xương",
+                "he-co": "Hệ Cơ",
+                "he-tim-mach": "Hệ Tim Mạch",
+                "he-than-kinh": "Hệ Thần Kinh",
+                "tiet-nieu": "Hệ Tiết Niệu", 
+                "sinh-duc": "Hệ Sinh Dục", 
+                "tong-hop": "Thi Tổng Hợp Toàn Diện"
             };
             tenHocPhanHienTai = moduleNames[moduleKey];
 
@@ -280,7 +347,6 @@
                 document.getElementById('result-screen').classList.remove('hidden');
                 document.getElementById('final-score').innerText = `Kết quả: ${data.score} / ${data.total} Trạm`;
                 
-                // Hiển thị chi tiết bảng đáp án
                 const tbody = document.getElementById('result-body');
                 tbody.innerHTML = ''; 
                 
