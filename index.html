@@ -26,9 +26,9 @@
             background-size: cover;
             background-position: center;
             background-repeat: no-repeat;
-            opacity: 0.7; /* Độ trong suốt của hình nền */
+            opacity: 1; /* Độ trong suốt của hình nền */
             filter: blur(12px); /* Độ mờ liquid */
-            z-index: -1; 
+            z-index: -0.1; 
         }
 
         .header { background-color: rgba(0, 86, 179, 0.95); color: white; width: 100%; text-align: center; padding: 12px 0; font-size: 22px; font-weight: bold; backdrop-filter: blur(5px); }
@@ -37,7 +37,7 @@
         .container { 
             width: 92%; max-width: 800px; 
             background: rgba(255, 255, 255, 0.88); /* Nền trắng hơi trong suốt */
-            backdrop-filter: blur(8px); /* Hiệu ứng kính mờ (glassmorphism) */
+            backdrop-filter: blur(1px); /* Hiệu ứng kính mờ (glassmorphism) */
             margin-top: 20px; padding: 25px 15px; border-radius: 12px; 
             box-shadow: 0 8px 32px rgba(0,0,0,0.15); 
             text-align: center; box-sizing: border-box; margin-bottom: 30px;
@@ -224,7 +224,7 @@
         function startExam(moduleKey) {
             document.getElementById('selection-screen').classList.add('hidden');
             document.getElementById('loading-screen').classList.remove('hidden');
-            document.getElementById('loading-text').innerText = "Đang tải đề thi từ máy chủ...";
+            document.getElementById('loading-text').innerText = "Đang tải đề thi từ máy chủ, tùy tình trạng mạng internet, các bạn vui lòng chờ khoảng 30 giây nhé...";
 
             let moduleNames = {
                 "chi-tren": "Giải Phẫu Chi Trên", 
@@ -335,7 +335,7 @@
             clearInterval(timerInterval);
             document.getElementById('exam-screen').classList.add('hidden');
             document.getElementById('loading-screen').classList.remove('hidden');
-            document.getElementById('loading-text').innerText = "Đang gửi bài và chấm điểm tự động...";
+            document.getElementById('loading-text').innerText = "Đang gửi bài và chấm điểm tự động, các bạn vui lòng chờ khoảng 30 giây nhé...";
 
             fetch(API_URL, {
                 method: 'POST',
